@@ -1,5 +1,3 @@
-# url_manager.py
-
 class URLManager:
     ####################
     # Inicializa o gerenciador de URLs
