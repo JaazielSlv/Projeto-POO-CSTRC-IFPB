@@ -22,7 +22,7 @@ def limpar_tela():
 def mostrar_interface():
     limpar_tela()
 
-    # Histórico de Visitas (Interface do Checkpoint 1)
+    # Histórico de Visitas 
     print("Histórico de Visitas: [", end="")
     print("][".join(historico_browser.historico), end="")
     print("]\n")
