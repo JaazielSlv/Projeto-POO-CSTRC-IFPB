@@ -1,7 +1,7 @@
 import os
 import sys
 from historico import HistoricoNavegacao
-from url_manager import URLManager
+from gerenciarurl import URLManager
 
 ####################
 # Inicializa as classes
