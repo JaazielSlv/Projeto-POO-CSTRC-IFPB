@@ -1,104 +1,40 @@
-import os
-import sys
-from historico import HistoricoNavegacao
-from gerenciarurl import URLManager
+###########################
+####### Interface #########
+###########################
+class Interface:
+    def mostrar(self, historico, home):
+        """Exibe a interface principal do navegador"""
+        hist_str = "".join([f"[{url}]" for url in historico]) if historico else "[ ]"
+        home_str = f"[{home}]" if home else "[ ]"
+        
+        print(f"Histórico de Visitas: {hist_str}")
+        print(f"Home: {home_str}")
+        print("Digite a url ou #back para retornar à última página visitada.")
 
-####################
-# Inicializa as classes
-####################
-historico_browser = HistoricoNavegacao()
-gerenciador_urls = URLManager()
+    ###########################
+    ####### Exibir Página #####
+    ###########################
+    def mostrar_pagina(self, url_obj):
+        """Exibe o conteúdo da página e links disponíveis"""
+        print("\nPágina encontrada!\n")
+        
+        # Tenta ler o arquivo da página se existir
+        if url_obj.arquivo:
+            try:
+                with open(url_obj.arquivo, "r", encoding='utf-8') as f:
+                    conteudo = f.read()
+                    print(conteudo)
+            except FileNotFoundError:
+                print(f"(Arquivo {url_obj.arquivo} não encontrado para esta URL)")
+            except Exception as e:
+                print(f"Erro ao ler arquivo: {e}")
+        
+        links = url_obj.get_links()
+        if links:
+            print("\nLinks disponíveis:\n")
+            for link in links:
+                print(link)
+        print() # Linha em branco para separação
 
-
-####################
-# Limpa o console.
-####################
-def limpar_tela():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-####################
-# Desenha a interface.
-####################
-def mostrar_interface():
-    limpar_tela()
-
-    # Histórico de Visitas 
-    print("Histórico de Visitas: [", end="")
-    print("][".join(historico_browser.historico), end="")
-    print("]\n")
-
-    # Home (Página Atual)
-    print(f"Home: [{historico_browser.home}]\n")
-
-    print("Digite a url ou um comando especial (ex: #back, #sair, #showhist, #add <url>).\n")
-    print("url: ", end="")
-
-####################
-# Processa comandos do usuário.
-####################
-def processar_comando(entrada):
-    
-    # #sair
-    if entrada == "#sair":
-        historico_browser.salvar()
-        limpar_tela()
-        print("Programa encerrado. Estado de navegação salvo.")
-        sys.exit(0)
-
-    # #back
-    elif entrada == "#back":
-        anterior = historico_browser.voltar()
-        if anterior:
-            print(f"\n✅ Retornando para: {anterior}")
-        else:
-            print("\n⚠️ Histórico vazio. Não é possível retornar mais.")
-        return
-
-    # #showhist
-    elif entrada == "#showhist":
-        historico_browser.mostrar()
-        return
-
-    # #add <url>
-    elif entrada.startswith("#add "):
-        url_add = entrada[5:].strip() 
-        gerenciador_urls.adicionar_url(url_add)
-        return
-    
-    # Acesso à URL
-    if gerenciador_urls.verificar_url(entrada):
-        # URL válida: adiciona ao histórico e atualiza a home
-        historico_browser.adicionar(entrada) 
-        print("\n✅ Página encontrada!")
-    else:
-        # URL não cadastrada
-        print(f"\n❌ Página não encontrada (Erro 404): {entrada}")
-
-
-####################
-# Loop principal do programa.
-####################
-def main():
-    
-    print("Iniciando Histórico de Navegação...")
-    
-    while True:
-        try:
-            mostrar_interface()
-            entrada = input().strip()
-
-            if not entrada:
-                continue
-
-            processar_comando(entrada)
-            
-            if entrada not in ["#sair"]:
-                 input("\nPressione ENTER para continuar...")
-
-        except Exception as e:
-            print(f"\nOcorreu um erro inesperado: {e}")
-            input("Pressione ENTER para continuar...")
-
-
-if __name__ == "__main__":
-    main()
+    def mostrar_erro(self, mensagem):
+        print(f"\n{mensagem}\n")
