@@ -4,7 +4,7 @@ Este projeto é uma simulação de um navegador web simplificado, rodando via te
 
 ## 👥 Equipe de Desenvolvimento
 
-*   **Jaaiel Silva**
+*   **Jaaziel Silva**
 *   **Cosme Cristiano**
 *   **Cauã Pablo**
 
