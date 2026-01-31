@@ -2,13 +2,15 @@
 
 Este projeto é uma simulação de um navegador web simplificado, rodando via terminal, focado na implementação de estruturas de dados (Pilhas, Árvores) e conceitos de Orientação a Objetos.
 
-## 🚀 Como Executar
+## 👥 Equipe de Desenvolvimento
 
-Certifique-se de ter o Python instalado e rode:
+*   **Jaaiel Silva**
+*   **Cosme Cristiano**
+*   **Cauã Pablo**
 
-```bash
-python main.py
-```
+---
+
+
 
 ## 📂 Estrutura do Projeto
 
@@ -38,5 +40,7 @@ Ao rodar o programa, você pode usar:
 *   **Persistência em Arquivo**: O sistema lê e escreve em arquivos de texto plano para simular um banco de dados simples e editável.
 
 ---
-**Curso:** Redes de Computadores - IFPB
+**Instituição:** Instituto Federal da Paraíba (IFPB)
+**Curso:** Redes de Computadores
+**Disciplina:** Programação Orientada a Objetos
 **Semestre:** 2025.2
