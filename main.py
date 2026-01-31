@@ -15,6 +15,7 @@ def main():
     interface = Interface()
 
     url_atual = None
+    mensagem_aviso = None
 
     while True:
         limpar_tela()
@@ -27,7 +28,17 @@ def main():
         
         interface.mostrar(hist_lista, home_str)
         
+        # Se houver página atual, exibe o conteúdo dela (persistência na tela)
+        if url_atual:
+            interface.mostrar_pagina(url_atual)
+
+        # Se houver mensagem de aviso temporária
+        if mensagem_aviso:
+            print(f"\n>> MENSAGEM: {mensagem_aviso}")
+            mensagem_aviso = None
+        
         try:
+            print("-" * 50)
             entrada = input("url: ").strip()
         except EOFError:
             break
@@ -64,24 +75,41 @@ COMMANDOS
         elif entrada == "#back":
             url_anterior = historico.voltar()
             if url_anterior:
+                # Se voltou, a página atual vira a anterior
                 url_atual = url_anterior
-                if url_atual:
-                    interface.mostrar_pagina(url_atual)
+                # (Conteúdo será exibido no próximo loop)
             else:
-                interface.mostrar_erro("Histórico vazio ou início alcançado.")
-                time.sleep(1)
+                # Se não tem para onde voltar, mas o histórico tá vazio, 
+                # talvez devêssemos limpar a url atual se já estivéssemos no inicio?
+                # Pela lógica do enunciado "esta referência sairia do informativo".
+                # Se voltamos e não tem mais nada, talvez url_atual fique None?
+                # O enunciado diz: "Se considerarmos que o usuário digitou um #back , então a localização da página atual passa a ser a última url visitada."
+                # Se não há ultima visitada, estamos no estado inicial.
+                
+                # Se url_atual existe, mas o histórico está vazio, significa que estamos na primeira página?
+                # Não, o enunciado diz "O registro no histórico só acontecerá a partir do momento que você tiver visitado a primeira url. Então, a cada nova url visitada, a url atual deve ser armazenada"
+                # Se estamos na 1a página, histórico é []. Se dermos back, voltamos pra onde? Estado inicial (None)?
+                
+                if url_atual:
+                    # Estamos em uma página mas não tem histórico atrás.
+                    # Simular "sair" da navegação ou apenas avisar?
+                    # "E neste caso, essa referência sairia do informativo Páginas Visitadas." 
+                    # Assumindo que voltamos ao estado 'em branco' se o histórico acabar.
+                    url_atual = None
+                    mensagem_aviso = "Retornou ao início."
+                else:
+                    mensagem_aviso = "Histórico já está vazio."
 
         elif entrada.startswith("#add "):
             parts = entrada.split(maxsplit=1)
             if len(parts) == 2:
                 nova_url = parts[1]
                 if web.adicionar_nova_url(nova_url):
-                    print(f"URL {nova_url} adicionada com sucesso.")
+                    mensagem_aviso = f"URL {nova_url} adicionada com sucesso."
                 else:
-                    print(f"URL {nova_url} já existe ou inválida.")
+                    mensagem_aviso = f"URL {nova_url} já existe ou inválida."
             else:
-                print("Uso: #add <url>")
-            time.sleep(1)
+                mensagem_aviso = "Uso: #add <url>"
 
         ###########################
         ####### Navegação #########
@@ -96,16 +124,16 @@ COMMANDOS
                     if entrada in links:
                         nova_url_obj = links[entrada]
                     else:
-                        interface.mostrar_erro("Página não encontrada (404)")
+                        mensagem_aviso = "Página não encontrada (404)"
                 else:
-                    interface.mostrar_erro("Nenhuma página aberta para navegar relativamente.")
+                    mensagem_aviso = "Nenhuma página aberta para navegar relativamente."
             
             # Navegação absoluta
             else:
                 if web.existe(entrada):
                     nova_url_obj = web.get(entrada)
                 else:
-                    interface.mostrar_erro("Página não encontrada (404)")
+                    mensagem_aviso = "Página não encontrada (404)"
 
             # Se encontrou uma nova página
             if nova_url_obj:
@@ -114,12 +142,7 @@ COMMANDOS
                     historico.adicionar(url_atual)
                 
                 url_atual = nova_url_obj
-                interface.mostrar_pagina(url_atual)
-
-        # Pequena pausa ou limpeza se necessário, mas o loop limpa ou redesenha?
-        # A implementação original não limpava tela sempre, mas o input fica rolando.
-        # Vamos manter o histórico de comandos visível e mostrar o cabeçalho novamente a cada loop.
-        print("-" * 50)
+                # Interface será atualizada no próximo loop
 
 if __name__ == "__main__":
     main()

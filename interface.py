@@ -21,9 +21,18 @@ class Interface:
         # Tenta ler o arquivo da página se existir
         if url_obj.arquivo:
             try:
+                # Tenta ler como UTF-8 primeiro
                 with open(url_obj.arquivo, "r", encoding='utf-8') as f:
                     conteudo = f.read()
                     print(conteudo)
+            except UnicodeDecodeError:
+                # Se falhar, tenta com encoding padrão do Windows (latin-1 / cp1252)
+                try:
+                    with open(url_obj.arquivo, "r", encoding='latin-1') as f:
+                        conteudo = f.read()
+                        print(conteudo)
+                except Exception as e:
+                    print(f"Erro de codificação ao ler arquivo: {e}")
             except FileNotFoundError:
                 print(f"(Arquivo {url_obj.arquivo} não encontrado para esta URL)")
             except Exception as e:
