@@ -67,8 +67,6 @@ COMMANDOS
 
         elif entrada == "#showhist":
             interface.mostrar(hist_lista, home_str)
-            # O enunciado diz "lista na tela a situação atual". A interface já mostra na parte superior.
-            # Mas vamos forçar uma exibição explicita se desejado ou apenas pausar.
             print("\n(Histórico já exibido no topo)\n")
             input("Pressione ENTER para continuar...")
 
@@ -79,22 +77,7 @@ COMMANDOS
                 url_atual = url_anterior
                 # (Conteúdo será exibido no próximo loop)
             else:
-                # Se não tem para onde voltar, mas o histórico tá vazio, 
-                # talvez devêssemos limpar a url atual se já estivéssemos no inicio?
-                # Pela lógica do enunciado "esta referência sairia do informativo".
-                # Se voltamos e não tem mais nada, talvez url_atual fique None?
-                # O enunciado diz: "Se considerarmos que o usuário digitou um #back , então a localização da página atual passa a ser a última url visitada."
-                # Se não há ultima visitada, estamos no estado inicial.
-                
-                # Se url_atual existe, mas o histórico está vazio, significa que estamos na primeira página?
-                # Não, o enunciado diz "O registro no histórico só acontecerá a partir do momento que você tiver visitado a primeira url. Então, a cada nova url visitada, a url atual deve ser armazenada"
-                # Se estamos na 1a página, histórico é []. Se dermos back, voltamos pra onde? Estado inicial (None)?
-                
                 if url_atual:
-                    # Estamos em uma página mas não tem histórico atrás.
-                    # Simular "sair" da navegação ou apenas avisar?
-                    # "E neste caso, essa referência sairia do informativo Páginas Visitadas." 
-                    # Assumindo que voltamos ao estado 'em branco' se o histórico acabar.
                     url_atual = None
                     mensagem_aviso = "Retornou ao início."
                 else:
