@@ -2,11 +2,7 @@ from web import Web
 from historico import Historico
 from interface import Interface
 from utils import limpar_tela
-import time
 
-###########################
-####### Função Principal ##
-###########################
 def main():
     web = Web()
     web.carregar_urls()
@@ -16,47 +12,38 @@ def main():
 
     url_atual = None
     mensagem_aviso = None
+    pular_limpeza = False
 
     while True:
-        limpar_tela()
-        ###########################
-        ####### Exibição da Interface
-        ###########################
-        # Prepara dados para exibição
-        hist_lista = historico.mostrar() # Retorna lista de URLs
+        if not pular_limpeza:
+            limpar_tela()
+        pular_limpeza = False
+
+        hist_lista = historico.mostrar()
         home_str = url_atual.endereco if url_atual else None
-        
+
         interface.mostrar(hist_lista, home_str)
-        
-        # Se houver página atual, exibe o conteúdo dela (persistência na tela)
+
         if url_atual:
             interface.mostrar_pagina(url_atual)
 
-        # Se houver mensagem de aviso temporária
         if mensagem_aviso:
             print(f"\n>> MENSAGEM: {mensagem_aviso}")
             mensagem_aviso = None
-        
-        try:
-            print("-" * 50)
-            entrada = input("url: ").strip()
-        except EOFError:
-            break
+
+        print("-" * 50)
+        entrada = input("url: ").strip()
 
         if not entrada:
-            # Se vazio, apenas continua o loop (refresh)
             continue
 
-        ###########################
-        ####### Comandos ##########
-        ###########################
         if entrada == "#sair":
             break
 
         elif entrada == "#help":
             print("""
 ---------------------------------------------------------
-COMMANDOS
+COMANDOS
 #back             - Retornar à última página visitada
 #showhist         - Listar histórico completo
 #add <url>        - Adicionar nova URL ao sistema
@@ -66,16 +53,17 @@ COMMANDOS
             input("Pressione ENTER para continuar...")
 
         elif entrada == "#showhist":
-            interface.mostrar(hist_lista, home_str)
-            print("\n(Histórico já exibido no topo)\n")
-            input("Pressione ENTER para continuar...")
+            pular_limpeza = True
+            limpar_tela()
+            print("Histórico de Navegação:\n")
+            for url in historico.mostrar():
+                print(f"- {url}")
+            input("\nPressione ENTER para continuar...")
 
         elif entrada == "#back":
             url_anterior = historico.voltar()
             if url_anterior:
-                # Se voltou, a página atual vira a anterior
                 url_atual = url_anterior
-                # (Conteúdo será exibido no próximo loop)
             else:
                 if url_atual:
                     url_atual = None
@@ -94,13 +82,9 @@ COMMANDOS
             else:
                 mensagem_aviso = "Uso: #add <url>"
 
-        ###########################
-        ####### Navegação #########
-        ###########################
         else:
             nova_url_obj = None
-            
-            # Navegação relativa
+
             if entrada.startswith("/"):
                 if url_atual:
                     links = url_atual.get_links()
@@ -109,23 +93,20 @@ COMMANDOS
                     else:
                         mensagem_aviso = "Página não encontrada (404)"
                 else:
-                    mensagem_aviso = "Nenhuma página aberta para navegar relativamente."
-            
-            # Navegação absoluta
+                    mensagem_aviso = "Nenhuma página aberta para navegação relativa."
             else:
                 if web.existe(entrada):
                     nova_url_obj = web.get(entrada)
                 else:
                     mensagem_aviso = "Página não encontrada (404)"
 
-            # Se encontrou uma nova página
             if nova_url_obj:
-                # Se já tinha uma página, salva no histórico
                 if url_atual:
                     historico.adicionar(url_atual)
-                
+                else:
+                    historico.adicionar(nova_url_obj)
+
                 url_atual = nova_url_obj
-                # Interface será atualizada no próximo loop
 
 if __name__ == "__main__":
     main()
