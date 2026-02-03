@@ -44,11 +44,7 @@ Ao rodar o programa, você pode usar:
 **Curso:** Redes de Computadores
 **Disciplina:** Programação Orientada a Objetos
 **Semestre:** 2025.2
-
-
-## 📚 Armazenamento e Histórico de Navegação  
-
-Funciona como um navegador web simulado no terminal, e para isso ele precisa de dois mecanismos fundamentais: um sistema de armazenamento das páginas e um controle de histórico de navegação.  
+ 
 
 ## 📚 Armazenamento e Histórico de Navegação
 
