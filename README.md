@@ -91,3 +91,47 @@ Dessa forma, o projeto usa uma estrutura semelhante a um grafo, onde:
 - Cada link entre páginas é uma aresta.
 
 Isso permite simular navegação de forma realista.
+
+
+
+## 🔹 2. Histórico de Navegação
+
+O histórico de navegação foi implementado usando uma estrutura de pilha (Stack),
+
+➡️ **O último que entra é o primeiro que sai.**
+
+Essa parte está no arquivo `historico.py`.
+
+### 2.1 Funcionamento da Pilha
+
+Sempre que o usuário acessa uma página, o programa executa um `push`, adicionando essa página ao topo da pilha.
+
+**Exemplo de navegação:**
+
+
+Se o usuário digita `#back`, o programa executa um `pop`, ele esta removendo a página atual e voltando para a anterior. Isso simula exatamente o botão **"voltar"** de um navegador real.
+
+### 2.2 Funções do Histórico
+
+O histórico tem três funcionalidades principais:
+
+- **`push(url)`**  
+  Adiciona uma página ao histórico sempre que o usuário navega.
+
+- **`pop()`**  
+  Remove a página atual e retorna à anterior (usado pelo comando `#back`).
+
+- **Listar histórico**  
+  O comando `#showhist` exibe todas as páginas armazenadas na pilha até o momento.
+
+Assim, o usuário pode visualizar tudo o que navega dentro do sistema.
+
+## 💡 Conclusão
+
+Em resumo, o projeto utiliza:
+
+- **Arquivos `.txt`** como armazenamento permanente das páginas e suas conexões.
+- **Objetos Python** (classes `Url` e `Web`) para modelar páginas, links e funcionar como um "servidor DNS" interno.
+- **Uma pilha (Stack)** para implementar o histórico de navegação de forma coerente e funcional, simulando o comportamento de um navegador real.
+
+Essa combinação permite uma simulação realista de navegação web diretamente no terminal.
