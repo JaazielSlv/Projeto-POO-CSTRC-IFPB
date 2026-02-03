@@ -3,15 +3,15 @@
 ###########################
 class Historico:
     def __init__(self):
-        self.pilha = []
+        self.pilha = []            # Pilha que guarda as URLs visitadas
 
     def adicionar(self, url):
-        self.pilha.append(url)
+        self.pilha.append(url)      # Adiciona uma URL ao histórico
 
     def voltar(self):
         if self.pilha:
-            return self.pilha.pop()
-        return None
+            return self.pilha.pop()  # Remove e retorna a última URL (voltar)
+        return None      # Se estiver vazio, não há para onde voltar
 
     def mostrar(self):
-        return self.pilha.copy()
+        return self.pilha.copy()  # Retorna uma cópia do histórico
