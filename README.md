@@ -46,26 +46,26 @@ Ao rodar o programa, você pode usar:
 **Semestre:** 2025.2
 
 
-## 📚 Armazenamento e Histórico de Navegação
+## 📚 Armazenamento e Histórico de Navegação  
 
-Funciona como um navegador web simulado no terminal, e para isso ele precisa de dois mecanismos fundamentais: um sistema de armazenamento das páginas e um controle de histórico de navegação.
+Funciona como um navegador web simulado no terminal, e para isso ele precisa de dois mecanismos fundamentais: um sistema de armazenamento das páginas e um controle de histórico de navegação.  
 
-##🔹 1. Armazenamento das Páginas e URLs
-O sistema de armazenamento do projeto é dividido em duas partes: arquivos físicos e objetos em memória.
-      1.1 Armazenamento em Arquivos (pasta dados)
-    A pasta dados/ funciona como o banco de dados do projeto.Nela estão guardados arquivos .txt que contêm:
-          - A lista de todas as URLs válidas.
-          - O conteúdo das páginas.
-          - Os links que conectam uma página a outras.
-      Esses arquivos são lidos pelo programa sempre que ele inicia, Esse armazenamento é persistente, pois mesmo que você feche o programa, os dados continuam gravados.
+##🔹 1. Armazenamento das Páginas e URLs  
+O sistema de armazenamento do projeto é dividido em duas partes: arquivos físicos e objetos em memória.  
+      1.1 Armazenamento em Arquivos (pasta dados)  
+    A pasta dados/ funciona como o banco de dados do projeto.Nela estão guardados arquivos .txt que contêm:  
+          - A lista de todas as URLs válidas.  
+          - O conteúdo das páginas.  
+          - Os links que conectam uma página a outras.   
+      Esses arquivos são lidos pelo programa sempre que ele inicia, Esse armazenamento é persistente, pois mesmo que você feche o programa, os dados continuam gravados.   
 
-  1.2 Armazenamento em Memória (objetos Python)
-Depois que o programa lê os arquivos da pasta dados/, ele transforma essas informações em objetos, que facilitam o acesso durante a execução.A peça central disso é a classe Url, que representa uma página da internet.
+  1.2 Armazenamento em Memória (objetos Python)  
+Depois que o programa lê os arquivos da pasta dados/, ele transforma essas informações em objetos, que facilitam o acesso durante a execução.A peça central disso é a classe Url, que representa uma página da internet.  
 
-Cada objeto Url guarda:
-    - o endereço da página (ex: www.ifpb.edu.br),
-    - o texto da página,
-    - os links para outras páginas.
+Cada objeto Url guarda:  
+    - o endereço da página (ex: www.ifpb.edu.br),  
+    - o texto da página,  
+    - os links para outras páginas.  
 Esses objetos são carregados e organizados pela classe Web (arquivo web.py).
     - Ela funciona como o “servidor DNS” interno do programa
     - armazena todas as páginas lidas dos arquivos,
