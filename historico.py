@@ -3,7 +3,7 @@
 ###########################
 class Historico:
     def __init__(self):
-        self.pilha = []            # Pilha que guarda as URLs visitadas
+        self.pilha = []            # guarda as URLs visitadas
 
     def adicionar(self, url):
         self.pilha.append(url)      # Adiciona uma URL ao histórico
